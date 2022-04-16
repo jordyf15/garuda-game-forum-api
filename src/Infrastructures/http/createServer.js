@@ -6,6 +6,7 @@ const users = require('../../Interfaces/http/api/users');
 const threads = require('../../Interfaces/http/api/threads');
 const comments = require('../../Interfaces/http/api/comments');
 const authentications = require('../../Interfaces/http/api/authentications');
+const replies = require('../../Interfaces/http/api/replies');
 
 const createServer = async (container) => {
   const server = Hapi.server({
@@ -50,6 +51,10 @@ const createServer = async (container) => {
     },
     {
       plugin: comments,
+      options: { container },
+    },
+    {
+      plugin: replies,
       options: { container },
     },
   ]);

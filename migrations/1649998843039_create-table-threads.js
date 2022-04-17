@@ -17,7 +17,7 @@ exports.up = (pgm) => {
       notNull: true,
     },
     date: {
-      type: 'DATE',
+      type: 'TIMESTAMP',
       notNull: true,
     },
     owner: {

@@ -92,4 +92,30 @@ describe('CommentRepositoryPostgres', () => {
       expect(comment[0].is_delete).toEqual(true);
     });
   });
+
+  describe('getThreadComments function', () => {
+    it('should get all thread comments', async () => {
+      await CommentsTableTestHelper.addComment({});
+      await CommentsTableTestHelper.addComment({ id: 'comment-321' });
+
+      const commentRepositoryPostgres = new CommentRepositoryPostgres(pool, {});
+
+      const threadComments = await commentRepositoryPostgres.getThreadComments('thread-123');
+      const threadComment1 = threadComments[0];
+      expect(threadComment1.id).toEqual('comment-123');
+      expect(threadComment1.username).toEqual('dicoding');
+      expect(threadComment1.date).not.toEqual('');
+      expect(typeof threadComment1.date).toEqual('string');
+      expect(threadComment1.replies).toEqual([]);
+
+      const threadComment2 = threadComments[1];
+      expect(threadComment1.content).toEqual('content');
+      expect(threadComment2.id).toEqual('comment-321');
+      expect(threadComment2.username).toEqual('dicoding');
+      expect(threadComment2.date).not.toEqual('');
+      expect(typeof threadComment2.date).toEqual('string');
+      expect(threadComment2.replies).toEqual([]);
+      expect(threadComment2.content).toEqual('content');
+    });
+  });
 });

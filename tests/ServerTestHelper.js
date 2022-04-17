@@ -86,6 +86,30 @@ const ServerTestHelper = {
     const responseJson = JSON.parse(response.payload);
     return responseJson.data.addedReply.id;
   },
+
+  async deleteComment(accessToken, threadId, commentId) {
+    const server = await createServer(container);
+
+    await server.inject({
+      method: 'DELETE',
+      url: `/threads/${threadId}/comments/${commentId}`,
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+  },
+
+  async deleteReply(accessToken, threadId, commentId, replyId) {
+    const server = await createServer(container);
+
+    await server.inject({
+      method: 'DELETE',
+      url: `/threads/${threadId}/comments/${commentId}/replies/${replyId}`,
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+  },
 };
 
 module.exports = ServerTestHelper;

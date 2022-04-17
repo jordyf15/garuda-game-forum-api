@@ -89,4 +89,26 @@ describe('ReplyRepositoryPostgres', () => {
       expect(reply[0].is_delete).toEqual(true);
     });
   });
+
+  describe('getCommentReplies function', () => {
+    it('should get all comment replies', async () => {
+      await RepliesTableTestHelper.addReply({});
+      await RepliesTableTestHelper.addReply({ id: 'reply-321' });
+      const replyRepositoryPostgres = new ReplyRepositoryPostgres(pool, {});
+
+      const commentReplies = await replyRepositoryPostgres.getCommentReplies('comment-123');
+      const commentReply1 = commentReplies[0];
+      const commentReply2 = commentReplies[1];
+      expect(commentReply1.id).toEqual('reply-123');
+      expect(commentReply1.content).toEqual('content');
+      expect(commentReply1.username).toEqual('dicoding');
+      expect(typeof commentReply1.date).toEqual('string');
+      expect(commentReply1.date).not.toEqual('');
+      expect(commentReply2.id).toEqual('reply-321');
+      expect(commentReply2.content).toEqual('content');
+      expect(commentReply2.username).toEqual('dicoding');
+      expect(typeof commentReply2.date).toEqual('string');
+      expect(commentReply2.date).not.toEqual('');
+    });
+  });
 });

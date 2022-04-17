@@ -68,4 +68,21 @@ describe('ThreadRepositoryPostgres', () => {
         .resolves.not.toThrowError(NotFoundError);
     });
   });
+
+  describe('getThreadDetail function', () => {
+    it('should get thread correctly', async () => {
+      await ThreadsTableTestHelper.addThread({});
+
+      const threadRepositoryPostgres = new ThreadRepositoryPostgres(pool, {});
+
+      const thread = await threadRepositoryPostgres.getThreadDetail('thread-123');
+      expect(thread.id).toEqual('thread-123');
+      expect(thread.title).toEqual('title');
+      expect(thread.body).toEqual('body');
+      expect(typeof thread.date).toEqual('string');
+      expect(thread.date).not.toEqual('');
+      expect(thread.username).toEqual('dicoding');
+      expect(thread.comments).toEqual([]);
+    });
+  });
 });

@@ -6,7 +6,7 @@ const CommentsTableTestHelper = require('../../../../tests/CommentsTableTestHelp
 const container = require('../../container');
 const createServer = require('../createServer');
 
-describe('HTTP server', () => {
+describe('/comments endpoint', () => {
   afterAll(async () => {
     await pool.end();
   });

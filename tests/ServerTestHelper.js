@@ -67,6 +67,25 @@ const ServerTestHelper = {
     const responseJson = JSON.parse(response.payload);
     return responseJson.data.addedComment.id;
   },
+
+  async createReplyAndGetId(accessToken, threadId, commentId) {
+    const requestPayload = {
+      content: 'content',
+    };
+    const server = await createServer(container);
+
+    const response = await server.inject({
+      method: 'POST',
+      url: `/threads/${threadId}/comments/${commentId}/replies`,
+      payload: requestPayload,
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+
+    const responseJson = JSON.parse(response.payload);
+    return responseJson.data.addedReply.id;
+  },
 };
 
 module.exports = ServerTestHelper;

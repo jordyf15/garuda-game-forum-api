@@ -10,7 +10,11 @@ class AddUserUseCase {
     console.log('baru masuk use case');
     const registerUser = new RegisterUser(useCasePayload);
     console.log('mau pake db');
-    await this._userRepository.verifyAvailableUsername(registerUser.username);
+    try{
+      await this._userRepository.verifyAvailableUsername(registerUser.username);
+    }catch (error) {
+      console.log(error);
+    }
     console.log('wow aman');
     registerUser.password = await this._passwordHash.hash(registerUser.password);
     return this._userRepository.addUser(registerUser);

@@ -6,9 +6,9 @@
   "scripts": {
     "start": "node src/app.js",
     "start:dev": "nodemon src/app.js",
-    "test": "jest --setupFiles dotenv/config -i",
-    "test:watch:change": "jest --watch --setupFiles dotenv/config -i",
-    "test:watch": "jest --watchAll --coverage --setupFiles dotenv/config -i",
+    "test": "jest --setupFiles dotenv/config -i --testTimeout=90000",
+    "test:watch:change": "jest --watch --setupFiles dotenv/config -i --testTimeout=90000",
+    "test:watch": "jest --watchAll --coverage --setupFiles dotenv/config -i --testTimeout=90000",
     "migrate": "node-pg-migrate",
     "migrate:test": "node-pg-migrate -f config/database/test.json"
   },

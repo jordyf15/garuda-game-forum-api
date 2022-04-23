@@ -4,6 +4,7 @@ const DetailThread = require('../../../Domains/threads/entities/DetailThread');
 const ThreadRepository = require('../../../Domains/threads/ThreadRepository');
 const CommentRepository = require('../../../Domains/comments/CommentRepository');
 const ReplyRepository = require('../../../Domains/replies/ReplyRepository');
+const LikeRepository = require('../../../Domains/likes/LikeRepository');
 const GetDetailThreadUseCase = require('../GetDetailThreadUseCase');
 
 describe('GetDetailThreadUseCase', () => {
@@ -29,6 +30,7 @@ describe('GetDetailThreadUseCase', () => {
       replies: [],
       content: 'content',
       isDelete: false,
+      likeCount: 0,
     });
     const queriedDetailComment2 = new DetailComment({
       id: 'comment-321',
@@ -37,7 +39,17 @@ describe('GetDetailThreadUseCase', () => {
       replies: [],
       content: 'content',
       isDelete: false,
+      likeCount: 0,
     });
+    const queriedLike1 = {
+      comment: 'comment-123',
+    };
+    const queriedLike2 = {
+      comment: 'comment-123',
+    };
+    const queriedLike3 = {
+      comment: 'comment-333',
+    };
     const queriedDetailThread = new DetailThread({
       id: 'thread-123',
       title: 'title',
@@ -53,6 +65,7 @@ describe('GetDetailThreadUseCase', () => {
       replies: [queriedDetailReply[0]],
       content: 'content',
       isDelete: false,
+      likeCount: 2,
     });
     const expectedDetailComment2 = new DetailComment({
       id: 'comment-321',
@@ -61,6 +74,7 @@ describe('GetDetailThreadUseCase', () => {
       replies: [],
       content: 'content',
       isDelete: false,
+      likeCount: 0,
     });
     const expectedDetailThread = new DetailThread({
       id: 'thread-123',
@@ -74,6 +88,7 @@ describe('GetDetailThreadUseCase', () => {
     const mockThreadRepository = new ThreadRepository();
     const mockCommentRepository = new CommentRepository();
     const mockReplyRepository = new ReplyRepository();
+    const mockLikeRepository = new LikeRepository();
 
     mockThreadRepository.verifyThreadExist = jest.fn(() => Promise.resolve());
     mockThreadRepository.getThreadDetail = jest.fn(() => Promise.resolve(queriedDetailThread));
@@ -81,11 +96,14 @@ describe('GetDetailThreadUseCase', () => {
       .fn(() => Promise.resolve([queriedDetailComment1, queriedDetailComment2]));
     mockReplyRepository.getCommentReplies = jest
       .fn(() => Promise.resolve([queriedDetailReply, queriedDetailReply2]));
+    mockLikeRepository.getCommentsLikes = jest
+      .fn(() => Promise.resolve([queriedLike1, queriedLike2, queriedLike3]));
 
     const getDetailThreadUseCase = new GetDetailThreadUseCase({
       threadRepository: mockThreadRepository,
       commentRepository: mockCommentRepository,
       replyRepository: mockReplyRepository,
+      likeRepository: mockLikeRepository,
     });
 
     const detailThread = await getDetailThreadUseCase.execute('thread-123');
@@ -95,5 +113,6 @@ describe('GetDetailThreadUseCase', () => {
     expect(mockThreadRepository.getThreadDetail).toBeCalledWith('thread-123');
     expect(mockCommentRepository.getThreadComments).toBeCalledWith('thread-123');
     expect(mockReplyRepository.getCommentReplies).toBeCalledWith(['comment-123', 'comment-321']);
+    expect(mockLikeRepository.getCommentsLikes).toBeCalledWith(['comment-123', 'comment-321']);
   });
 });

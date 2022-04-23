@@ -151,6 +151,7 @@ describe('/threads endpoint', () => {
       expect(typeof comment1.date).toEqual('string');
       expect(comment1.date).not.toEqual('');
       expect(comment1.content).toEqual('content');
+      expect(comment1.likeCount).toEqual(0);
 
       const comment2 = comments[1];
       expect(comment2.id).toEqual(commentId2);
@@ -158,6 +159,7 @@ describe('/threads endpoint', () => {
       expect(typeof comment2.date).toEqual('string');
       expect(comment2.date).not.toEqual('');
       expect(comment2.content).toEqual('**komentar telah dihapus**');
+      expect(comment2.likeCount).toEqual(0);
 
       const { replies } = comment1;
       expect(Array.isArray(replies)).toEqual(true);

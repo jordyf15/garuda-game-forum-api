@@ -80,6 +80,7 @@ class CommentRepositoryPostgres extends CommentRepository {
         isDelete: row.is_delete,
         date: row.date.toISOString(),
         replies: [],
+        likeCount: 0,
       }));
     });
     return queryResult;

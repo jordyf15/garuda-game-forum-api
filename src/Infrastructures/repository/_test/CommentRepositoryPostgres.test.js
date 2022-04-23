@@ -107,6 +107,7 @@ describe('CommentRepositoryPostgres', () => {
       expect(threadComment1.date).not.toEqual('');
       expect(typeof threadComment1.date).toEqual('string');
       expect(threadComment1.replies).toEqual([]);
+      expect(threadComment1.likeCount).toEqual(0);
 
       const threadComment2 = threadComments[1];
       expect(threadComment1.content).toEqual('content');
@@ -116,6 +117,7 @@ describe('CommentRepositoryPostgres', () => {
       expect(typeof threadComment2.date).toEqual('string');
       expect(threadComment2.replies).toEqual([]);
       expect(threadComment2.content).toEqual('content');
+      expect(threadComment2.likeCount).toEqual(0);
     });
   });
 });

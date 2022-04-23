@@ -3,6 +3,7 @@ const ServerTestHelper = require('../../../../tests/ServerTestHelper');
 const UsersTableTestHelper = require('../../../../tests/UsersTableTestHelper');
 const ThreadsTableTestHelper = require('../../../../tests/ThreadsTableTestHelper');
 const CommentsTableTestHelper = require('../../../../tests/CommentsTableTestHelper');
+const AuthenticationsTableTestHelper = require('../../../../tests/AuthenticationsTableTestHelper');
 const container = require('../../container');
 const createServer = require('../createServer');
 
@@ -13,6 +14,7 @@ describe('/comments endpoint', () => {
   afterEach(async () => {
     await CommentsTableTestHelper.cleanTable();
     await ThreadsTableTestHelper.cleanTable();
+    await AuthenticationsTableTestHelper.cleanTable();
     await UsersTableTestHelper.cleanTable();
   });
 

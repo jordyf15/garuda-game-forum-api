@@ -15,6 +15,7 @@ describe('a DetailComment entities', () => {
       replies: 123,
       content: 123,
       isDelete: 123,
+      likeCount: '123',
     };
 
     expect(() => new DetailComment(payload)).toThrowError('DETAIL_COMMENT.NOT_MEET_DATA_TYPE_SPECIFICATION');
@@ -28,6 +29,7 @@ describe('a DetailComment entities', () => {
       replies: [],
       content: 'content',
       isDelete: true,
+      likeCount: 1,
     };
 
     const detailComment = new DetailComment(payload);
@@ -37,6 +39,7 @@ describe('a DetailComment entities', () => {
     expect(detailComment.date).toEqual(payload.date);
     expect(detailComment.replies).toEqual(payload.replies);
     expect(detailComment.content).toEqual('**komentar telah dihapus**');
+    expect(detailComment.likeCount).toEqual(payload.likeCount);
   });
 
   it('should create detailComment object correctly when isDelete is false', () => {
@@ -47,6 +50,7 @@ describe('a DetailComment entities', () => {
       replies: [],
       content: 'content',
       isDelete: false,
+      likeCount: 1,
     };
 
     const detailComment = new DetailComment(payload);

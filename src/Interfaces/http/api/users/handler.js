@@ -11,7 +11,7 @@ class UsersHandler {
     console.log('test masuk ini');
     const addUserUseCase = this._container.getInstance(AddUserUseCase.name);
     const addedUser = await addUserUseCase.execute(request.payload);
-
+    console.log('use case aman');
     const response = h.response({
       status: 'success',
       data: {

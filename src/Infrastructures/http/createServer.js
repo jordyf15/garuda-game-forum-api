@@ -1,4 +1,5 @@
 const Hapi = require('@hapi/hapi');
+const HapiRateLimit = require('hapi-rate-limit');
 const Jwt = require('@hapi/jwt');
 const ClientError = require('../../Commons/exceptions/ClientError');
 const DomainErrorTranslator = require('../../Commons/exceptions/DomainErrorTranslator');
@@ -18,6 +19,12 @@ const createServer = async (container) => {
   await server.register([
     {
       plugin: Jwt,
+    },
+    {
+      plugin: HapiRateLimit,
+      options: {
+        pathLimit: 1,
+      },
     },
   ]);
 
@@ -40,7 +47,9 @@ const createServer = async (container) => {
   await server.register([
     {
       plugin: users,
-      options: { container },
+      options: {
+        container,
+      },
     },
     {
       plugin: authentications,

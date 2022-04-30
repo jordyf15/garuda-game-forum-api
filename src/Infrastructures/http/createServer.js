@@ -23,7 +23,7 @@ const createServer = async (container) => {
     {
       plugin: hapiRateLimit,
       options: {
-        pathLimit: 1,
+        pathLimit: 90,
       },
     },
   ]);

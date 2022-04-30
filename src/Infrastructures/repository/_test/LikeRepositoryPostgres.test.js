@@ -41,6 +41,36 @@ describe('LikeRepositoryPostgres', () => {
     });
   });
 
+  describe('getCommentsLikes function', () => {
+    it('should return all likes of included comments', async () => {
+      await UsersTableTestHelper.addUser({id: 'user-111', username: 'user1'});
+      await UsersTableTestHelper.addUser({id: 'user-222', username: 'user2'});
+      await UsersTableTestHelper.addUser({id: 'user-333', username: 'user3'});
+      await UsersTableTestHelper.addUser({id: 'user-444', username: 'user4'});
+      await CommentsTableTestHelper.addComment({id: 'comment-111', content: 'comment1'});
+      await CommentsTableTestHelper.addComment({id: 'comment-222', content: 'comment2'});
+      await CommentsTableTestHelper.addComment({id: 'comment-333', content: 'comment3'});
+
+      await LikesTableTestHelper.addLike({id: 'like-111', owner: 'user-111', comment: 'comment-111'});
+      await LikesTableTestHelper.addLike({id: 'like-222', owner: 'user-222', comment: 'comment-222'});
+      await LikesTableTestHelper.addLike({id: 'like-333', owner: 'user-333', comment: 'comment-222'});
+      await LikesTableTestHelper.addLike({id: 'like-444', owner: 'user-444', comment: 'comment-333'});
+
+      const likeRepositoryPostgres = new LikeRepositoryPostgres(pool, {});
+      const commentsLikes = await likeRepositoryPostgres.getCommentsLikes(['comment-111', 'comment-222']);
+
+      expect(commentsLikes.length).toEqual(3);
+      const commentsLike1 = commentsLikes[0];
+      expect(commentsLike1.comment).toEqual('comment-111');
+
+      const commentsLike2 = commentsLikes[1];
+      expect(commentsLike2.comment).toEqual('comment-222');
+
+      const commentsLike3 = commentsLikes[2];
+      expect(commentsLike3.comment).toEqual('comment-222');
+    });
+  });
+
   describe('addLike function', () => {
     it('should persist added like', async () => {
       const fakeIdGenerator = () => '123';

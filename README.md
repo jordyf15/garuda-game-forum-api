@@ -65,6 +65,18 @@ These variables need to be provided in a `.env` file in the root folder.
 - **ACCESS_TOKEN_KEY**: The key that will be used to make the access token for authentication
 - **REFRESH_TOKEN_KEY**: The key that will be used to make the refresh token which are used for refreshing expired access token
 - **ACCESS_TOKEN_AGE**: The age of access token before they expired in seconds.
+  
+Other than environment variables, a config files is also needed, it should be located in config/database folder with the name test.json. Below is the content of the config files:
+```
+{
+  "user": The name of the user used to access the testing postgres database,
+  "password": The password for the user used to access the testing postgres database,
+  "host": The host for the testing postgres database,
+  "port": The port of the testing postgres database,
+  "database": The name of the testing postgres database
+}
+
+```
 
 ## Endpoint details
 1. Register
